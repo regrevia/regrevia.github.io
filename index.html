@@ -1,64 +1,298 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f6f9fb" />
-    <meta
-      name="description"
-      content="谭懿铖的个人作品集，聚焦 AI 应用、Agent 产品与全栈落地。"
-    />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23152027'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial' font-size='22' font-weight='700' fill='white'%3ETY%3C/text%3E%3C/svg%3E" />
-    <link rel="preload" as="image" href="/scenes/01-hero-preview.webp" type="image/webp" />
-    <style>
-      #preload-screen {
-        position: fixed;
-        z-index: 100;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        overflow: hidden;
-        color: #203139;
-        background: #f7fafb;
-        transition: opacity 520ms cubic-bezier(.32,.72,0,1), visibility 520ms;
-      }
-      #preload-screen.is-ready {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-      .preload-mark {
-        position: relative;
-        z-index: 2;
-        font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        letter-spacing: .08em;
-      }
-      .preload-mist {
-        position: absolute;
-        width: 140vw;
-        height: 34vh;
-        opacity: .58;
-        filter: blur(28px);
-        background: linear-gradient(90deg, transparent, #dfecef 38%, #e7e2f7 50%, #dfecef 62%, transparent);
-        animation: preload-drift 1.4s cubic-bezier(.32,.72,0,1) infinite alternate;
-      }
-      @keyframes preload-drift {
-        from { transform: translate3d(-12%, -10%, 0) rotate(-3deg); }
-        to { transform: translate3d(12%, 10%, 0) rotate(3deg); }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .preload-mist { animation: none; }
-      }
-    </style>
-    <title>谭懿铖 · AI 应用 / Agent / Product</title>
-    <script type="module" crossorigin src="/portfolio-assets/index-WdxlFAcu.js"></script>
-    <link rel="stylesheet" crossorigin href="/portfolio-assets/index-DJ9gZr0p.css">
-  </head>
-  <body>
-    <div id="preload-screen" aria-hidden="true">
-      <div class="preload-mist"></div>
-      <div class="preload-mark">TY / LOADING SCENE</div>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#f7f6f2">
+<meta name="description" content="regrevia 的开源项目索引：Envoy（链接→可引用材料）、Revia（可核验语义图）、Multiverse（Agent 编写的工作流运行时）。">
+<title>regrevia · 让 Agent 的工作可以被看见</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231e5140'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial' font-size='24' font-weight='700' fill='white'%3Er%3C/text%3E%3Csvg%3E">
+<style>
+:root{
+  --bg:#f7f6f2; --surface:#fff; --ink:#1a1c1a; --ink2:#4c514c; --ink3:#7d837c;
+  --line:#e3e0d8; --line2:#eeece5;
+  --green:#1e5140; --green-soft:#e7f0eb;
+  --amber:#8a5a1f; --amber-soft:#f7efdd;
+  --slate:#3c5468; --slate-soft:#e9eff4;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.skip{position:absolute;left:-9999px;top:0;background:var(--green);color:#fff;padding:10px 16px;z-index:9}
+.skip:focus{left:12px;top:12px}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 32px}
+.mono{font-family:var(--mono)}
+
+header{border-bottom:1px solid var(--line);background:rgba(247,246,242,.92);position:sticky;top:0;z-index:5;backdrop-filter:saturate(150%) blur(8px)}
+.bar{height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:650;letter-spacing:-.01em}
+.mark{width:28px;height:28px;border-radius:8px;background:var(--green);color:#fff;display:grid;place-items:center;font:600 15px var(--sans)}
+.brand small{font:400 12px var(--mono);color:var(--ink3);display:block;line-height:1.2;margin-top:1px}
+nav{display:flex;align-items:center;gap:26px;font-size:14px;color:var(--ink2)}
+nav a{text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px}
+nav a:hover{color:var(--green);border-color:var(--green)}
+nav .ext{font-family:var(--mono);font-size:13px}
+nav .short{display:none}
+@media(max-width:720px){nav a:not(.ext){display:none}.wrap{padding:0 20px}nav .long{display:none}nav .short{display:inline}nav .ext{font-size:12px}}
+
+.hero{padding-top:76px;padding-bottom:60px;display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center}
+.hero>*{min-width:0}
+@media(max-width:900px){.hero{grid-template-columns:1fr;gap:36px;padding-top:52px;padding-bottom:40px}}
+.eyebrow{font:500 12px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin:0 0 22px}
+h1{font-size:clamp(34px,4.6vw,56px);line-height:1.22;letter-spacing:-.035em;font-weight:680;margin:0 0 22px}
+h1 em{font-style:normal;color:var(--green)}
+.lead{font-size:17px;line-height:1.85;color:var(--ink2);margin:0 0 30px;max-width:520px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:8px;font-size:14.5px;font-weight:600;text-decoration:none;border:1px solid var(--green);transition:background .15s,color .15s,transform .15s}
+.btn-p{background:var(--green);color:#fff}
+.btn-p:hover{background:#173f32;transform:translateY(-1px)}
+.btn-s{background:transparent;color:var(--green)}
+.btn-s:hover{background:var(--green-soft);transform:translateY(-1px)}
+.figure{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:0 14px 40px -28px rgba(30,81,64,.45);margin:0}
+.figure svg{width:100%;max-width:100%;height:auto;display:block}
+.figure figcaption{font:12px/1.6 var(--mono);color:var(--ink3);border-top:1px solid var(--line2);margin-top:16px;padding-top:12px}
+
+.strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);margin:0}
+.strip div{padding:18px 22px;border-right:1px solid var(--line)}
+.strip div:first-child{padding-left:0}
+.strip div:last-child{border-right:0}
+.strip dt{font:11px/1.4 var(--mono);letter-spacing:.1em;color:var(--ink3);text-transform:uppercase;margin:0 0 4px}
+.strip dd{margin:0;font-size:14.5px;font-weight:600;overflow-wrap:anywhere}
+@media(max-width:720px){.strip{grid-template-columns:repeat(2,1fr)}.strip div:nth-child(2){border-right:0}.strip div:nth-child(3){padding-left:0}.strip div:nth-child(1),.strip div:nth-child(2){border-bottom:1px solid var(--line)}}
+
+.sec{padding-top:78px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;border-bottom:1px solid var(--ink);padding-bottom:16px}
+.sec-head h2{font-size:26px;letter-spacing:-.025em;font-weight:650;margin:0}
+.sec-head span{font:12px var(--mono);color:var(--ink3)}
+.sec-intro{color:var(--ink2);font-size:15.5px;margin:20px 0 8px;max-width:720px}
+
+.proj{display:grid;grid-template-columns:64px minmax(0,1fr) 178px;gap:22px;padding:42px 0;border-bottom:1px solid var(--line)}
+.proj>*{min-width:0}
+@media(max-width:860px){.proj{grid-template-columns:44px 1fr;gap:14px}.proj .side{grid-column:2;text-align:left}}
+.num{font:500 13px var(--mono);color:var(--ink3);padding-top:7px}
+.ptitle{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 10px}
+.ptitle h3{font-size:26px;letter-spacing:-.025em;font-weight:660;margin:0}
+.ptitle .sub{font:13px var(--mono);color:var(--ink3)}
+.pdesc{font-size:16px;color:var(--ink2);margin:0 0 18px;max-width:660px}
+.feat{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:7px}
+.feat li{font-size:14.5px;color:var(--ink2);padding-left:18px;position:relative;line-height:1.7}
+.feat li::before{content:"";position:absolute;left:0;top:11px;width:6px;height:6px;border:1.5px solid var(--green);border-radius:50%}
+.badge{display:inline-block;font:600 11.5px/1 var(--mono);letter-spacing:.02em;padding:8px 11px;border-radius:6px;white-space:nowrap}
+.b-ok{background:var(--green-soft);color:var(--green)}
+.b-res{background:var(--amber-soft);color:var(--amber)}
+.b-pre{background:var(--slate-soft);color:var(--slate)}
+.side{text-align:right}
+.side .lic{display:block;font:12px/1.7 var(--mono);color:var(--ink3);margin-top:14px}
+.side a{display:block;font:13px var(--mono);color:var(--green);text-decoration:none;margin-top:6px}
+.side a:hover{text-decoration:underline}
+.note{border-left:2px solid var(--line);padding:4px 0 4px 16px;font-size:13.5px;color:var(--ink3);line-height:1.75;margin:0 0 22px;max-width:660px}
+.note strong{color:var(--ink2);font-weight:600}
+.cmd{background:#f1f0ea;border:1px solid var(--line);border-radius:8px;padding:13px 16px;font:13px/1.7 var(--mono);color:var(--ink);overflow-x:auto;white-space:pre;margin:0;max-width:660px}
+
+.two{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:48px;padding-top:44px}
+.two>*{min-width:0}
+@media(max-width:860px){.two{grid-template-columns:minmax(0,1fr);gap:32px}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:26px;min-width:0}
+.panel h3{font-size:17px;margin:0 0 6px;font-weight:650}
+.panel p{font-size:14px;color:var(--ink2);margin:0 0 18px}
+.panel pre{background:#f3f2ec;border:1px solid var(--line2);border-radius:8px;padding:14px;font:12.5px/1.8 var(--mono);overflow-x:auto;margin:0;white-space:pre}
+.panel .hint{font:12px/1.7 var(--mono);color:var(--ink3);margin:12px 0 0}
+.plist{list-style:none;padding:0;margin:0}
+.plist li{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line2);font-size:14px;color:var(--ink2)}
+.plist li:last-child{border-bottom:0}
+.plist code{font:12.5px var(--mono);color:var(--green);min-width:150px}
+.plist li span{flex:1;min-width:0}
+.honest{margin:78px 0 0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:30px 32px}
+.honest h2{font-size:18px;margin:0 0 16px;font-weight:650}
+.honest ul{margin:0;padding-left:20px;color:var(--ink2);font-size:14px;line-height:1.9}
+.honest li{margin-bottom:6px}
+.honest strong{color:var(--ink)}
+
+footer{border-top:1px solid var(--line);margin-top:78px;padding-top:30px;padding-bottom:46px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font:12.5px/1.8 var(--mono);color:var(--ink3)}
+footer a{color:var(--green);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要内容</a>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top">
+      <span class="mark">r</span>
+      <span>regrevia<small>谭懿铖 · 开源项目索引</small></span>
+    </a>
+    <nav>
+      <a href="#projects">项目</a>
+      <a href="#start">快速开始</a>
+      <a href="#notes">边界说明</a>
+      <a class="ext" href="https://github.com/regrevia"><span class="long">github.com/regrevia ↗</span><span class="short">GitHub ↗</span></a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="wrap hero" id="top">
+  <div>
+    <p class="eyebrow">Open source / agent-native tooling / 2026</p>
+    <h1>让 Agent 的工作<br><em>可以被看见</em></h1>
+    <p class="lead">三个彼此独立的项目：材料要有出处，程序要能核验，流程说得清怎么跑。不追求「更聪明」，只把中间那一步摊开给人看。</p>
+    <div class="cta">
+      <a class="btn btn-p" href="#projects">查看三个项目 <span aria-hidden="true">↓</span></a>
+      <a class="btn btn-s" href="#start">从 Envoy 开始</a>
     </div>
-    <div id="root"></div>
-  </body>
+  </div>
+  <figure class="figure">
+    <svg viewBox="0 0 420 286" role="img" aria-labelledby="fig-t">
+      <title id="fig-t">一条链接被拆成带来源定位的材料片段，读不到的部分标为待补</title>
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="none" stroke="#1e5140" stroke-width="1.4"/></marker></defs>
+      <rect x="10" y="14" width="164" height="38" rx="7" fill="#f1f0ea" stroke="#e3e0d8"/>
+      <text x="24" y="38" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#4c514c">https://example.com/v</text>
+      <line x1="182" y1="33" x2="222" y2="33" stroke="#1e5140" stroke-width="1.4" marker-end="url(#ar)"/>
+      <text x="188" y="23" font-family="ui-monospace,Menlo,monospace" font-size="9.5" fill="#7d837c">fetch</text>
+      <rect x="230" y="6" width="180" height="52" rx="8" fill="#e7f0eb" stroke="#1e5140" stroke-opacity=".28"/>
+      <text x="244" y="27" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#1e5140">material · segment 01</text>
+      <text x="244" y="45" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a1c1a">[04:12] 第一段材料……</text>
+      <rect x="230" y="68" width="180" height="52" rx="8" fill="#e7f0eb" stroke="#1e5140" stroke-opacity=".28"/>
+      <text x="244" y="89" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#1e5140">material · segment 02</text>
+      <text x="244" y="107" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#1a1c1a">[07:38] 第二段材料……</text>
+      <rect x="230" y="130" width="180" height="52" rx="8" fill="#fff" stroke="#8a5a1f" stroke-opacity=".5" stroke-dasharray="4 3"/>
+      <text x="244" y="151" font-family="ui-monospace,Menlo,monospace" font-size="10" fill="#8a5a1f">uncovered</text>
+      <text x="244" y="169" font-family="ui-monospace,Menlo,monospace" font-size="11.5" fill="#7d837c">待补 · 这段没读到</text>
+      <line x1="10" y1="202" x2="410" y2="202" stroke="#e3e0d8"/>
+      <text x="10" y="226" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#7d837c">envoy_search  按关键词定位</text>
+      <text x="10" y="246" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#7d837c">envoy_expand  按需补读区间</text>
+      <text x="10" y="270" font-family="ui-monospace,Menlo,monospace" font-size="10.5" fill="#1e5140">每条结论 → 可指回原文位置</text>
+    </svg>
+    <figcaption>Envoy 的核心约束：不知道就是不知道，不许模型补。</figcaption>
+  </figure>
+</section>
+
+<div class="wrap">
+  <dl class="strip">
+    <div><dt>Projects</dt><dd>03 个独立项目</dd></div>
+    <div><dt>All open source</dt><dd>Apache-2.0 / MPL-2.0</dd></div>
+    <div><dt>Status</dt><dd>1 可用 · 2 预览</dd></div>
+    <div><dt>Updated</dt><dd>2026-11-05</dd></div>
+  </dl>
+</div>
+
+<section class="wrap sec" id="projects">
+  <div class="sec-head"><h2>项目</h2><span>01 — 03</span></div>
+  <p class="sec-intro">这三个项目解决的是不同层面的问题，彼此没有依赖关系，也不要求一起用。成熟度按各自实际情况标注，预览版不会被写成可用产品。</p>
+
+  <article class="proj">
+    <div class="num">01</div>
+    <div>
+      <div class="ptitle"><h3>Envoy</h3><span class="sub">把链接分享给你的 AI</span></div>
+      <p class="pdesc">给 Agent 一条链接，拿回来的不是「大概读过了」，而是带时间戳与来源坐标、能逐条引用的材料。网页、公众号、PDF、图片帖、B 站与本地视频都在本地取回处理。</p>
+      <ul class="feat">
+        <li>每段材料附 <span class="mono">[mm:ss]</span> 或页面/段落坐标，外加 material id</li>
+        <li><span class="mono">envoy_search</span> 按关键词定位，<span class="mono">envoy_expand</span> 按需续读，不必一次吞下整篇</li>
+        <li>没字幕、要登录、缺模态 → 统一标「待补」，不让模型用常识填坑</li>
+      </ul>
+      <p class="note"><strong>可用。</strong> 当前 v0.1.56、Apache-2.0，Claude Code / Codex / DeepSeek Harness 各一行命令安装。仓库里的 A/B 数据附带实验偏差说明，不代表「答案更准」——详见下方边界说明。</p>
+      <pre class="cmd">curl -fsSL https://raw.githubusercontent.com/regrevia/Envoy/main/integrations/install.sh | sh -s -- auto
+envoy doctor --json</pre>
+    </div>
+    <div class="side">
+      <span class="badge b-ok">可用 · v0.1.56</span>
+      <span class="lic">Apache-2.0<br>101 stars · 2026-11 更新</span>
+      <a href="https://github.com/regrevia/Envoy">GitHub →</a>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="num">02</div>
+    <div>
+      <div class="ptitle"><h3>Revia</h3><span class="sub">Agent 写程序，人治理语义图</span></div>
+      <p class="pdesc">一种面向 AI 原生开发的 graph-first 可执行语言：程序由 Agent 生成，人核验的是一张可确定序列化、能力 / 效果 / 错误 / 资源都显式的语义图。</p>
+      <ul class="feat">
+        <li>checked semantic graph，而非自由文本式代码生成</li>
+        <li>deterministic serialization，同一张图得到同一份产物</li>
+        <li>capabilities / effects / errors / resources 全部显式声明，便于人工审查</li>
+      </ul>
+      <p class="note"><strong>研究预览。</strong> open-source research / preview implementation，<strong>不是 Stable V1.0，也不是生产可用</strong>。适合读设计、读实现、讨论语言形态，不适合拿去上线。MPL-2.0。</p>
+    </div>
+    <div class="side">
+      <span class="badge b-res">研究预览 · 非生产可用</span>
+      <span class="lic">MPL-2.0<br>语言 / 语义图研究</span>
+      <a href="https://github.com/regrevia/Revia">GitHub →</a>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div class="num">03</div>
+    <div>
+      <div class="ptitle"><h3>Multiverse</h3><span class="sub">Agent 编写的可移植工作流运行时</span></div>
+      <p class="pdesc">工作流包定义业务契约，环境绑定决定「怎么跑、在哪跑」。文件、schema、能力发现与可机器读的诊断构成 Agent 的编写界面，图形界面用于检查、审阅与人工任务。</p>
+      <ul class="feat">
+        <li><span class="mono">capabilities</span> / <span class="mono">validate</span> / <span class="mono">preflight</span> 返回带来源定位、值已脱敏的诊断</li>
+        <li>本地 SQLite 运行时支持确定性 preset、人工审批节点与 durable child scope</li>
+        <li>标准 HTTP Job 绑定以可信本地执行宿主为参考实现，提交与观测分离</li>
+      </ul>
+      <p class="note"><strong>本地开发预览。</strong> 可移植宿主嵌入、远程 Connector、飞书渠道与 Codex / Pi / Claude 会话管理目前都是 <strong>design targets, not completed integrations</strong>。生产托管、IAM、多 Worker 等尚未支持。</p>
+      <pre class="cmd">uv run mverse capabilities --json
+uv run mverse preflight presets/content-delivery \
+  --binding examples/bindings/content-local.yaml --json</pre>
+    </div>
+    <div class="side">
+      <span class="badge b-pre">本地开发预览</span>
+      <span class="lic">Agent-authored workflow<br>docs/spec 可查</span>
+      <a href="https://github.com/regrevia/Multiverse">GitHub →</a>
+    </div>
+  </article>
+</section>
+
+<section class="wrap sec" id="start">
+  <div class="sec-head"><h2>快速开始</h2><span>Envoy only</span></div>
+  <div class="two">
+    <div class="panel">
+      <h3>一行安装，三个宿主</h3>
+      <p>安装脚本自带 uv 与 Python 3.11，装完跑一次自检即可。</p>
+      <pre>curl -fsSL https://raw.githubusercontent.com/regrevia/Envoy/main/integrations/install.sh | sh -s -- claude-code
+curl -fsSL https://raw.githubusercontent.com/regrevia/Envoy/main/integrations/install.sh | sh -s -- codex
+curl -fsSL https://raw.githubusercontent.com/regrevia/Envoy/main/integrations/install.sh | sh -s -- dsh
+
+envoy doctor --json</pre>
+      <p class="hint">把参数换成 auto 可自动识别宿主；--profile minimal 只装 178 MB runtime，跳过约 683 MB 的 Chromium。</p>
+    </div>
+    <div class="panel">
+      <h3>还有一组 DSH 插件</h3>
+      <p>DeepSeek Harness 生态的小工具，已收录在社区插件榜单。</p>
+      <ul class="plist">
+        <li><code>dsh-unlag</code><span>不重启会话刷新插件状态</span></li>
+        <li><code>dsh-fast-mode</code><span>按步骤自适应思考档位与批量并行工具调用</span></li>
+        <li><code>dsh-mobile-use</code><span>移动端设备操作能力</span></li>
+        <li><code>envoy-dsh</code><span>Envoy 的 DSH 接入包</span></li>
+      </ul>
+      <p class="hint"><a href="https://github.com/awesome-dsh-plugin/awesome-dsh-plugin" style="color:var(--green)">社区插件榜单 →</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap honest" id="notes">
+  <h2>边界与事实说明</h2>
+  <ul>
+    <li><strong>Envoy 不绕过</strong>登录、验证码、地区限制与 DRM，也不替代联网搜索；PyPI 尚未发布，以 GitHub Release 为准。</li>
+    <li><strong>关于那组 A/B 数据</strong>（正常结束且未自报读不到 22%→92%、超时 68%→0%、命中参考事实关键词 23%→82%）：两臂时间上限不同（900s vs 2400s），完成率差距会被放大；<span class="mono">verified</span> 两臂均为 0，本轮没有人工判定答案对错；<span class="mono">suspect_complete</span> 只表示「正常结束且没自报读不到」，<strong>不等于答对</strong>。完整协议与偏差说明在仓库 <span class="mono">benchmarks/fixed-set-v1</span>。</li>
+    <li><strong>链接覆盖实验</strong>：100 条可达链接中 80 条可用、可达链接 92.5% 读出正文；未拿到的 24 条里 16 条是境外站点被本机代理出口挡住、8 条是登录墙或人机校验。</li>
+    <li><strong>Revia 与 Multiverse 均为预览实现</strong>，页面上的功能描述以各自 README 的当前状态为准，未完成的集成已在上方逐条标明。</li>
+    <li>本页不依赖任何第三方脚本、字体或统计服务；所有数字与版本号来自事实表复核，会随项目更新变化。</li>
+  </ul>
+</section>
+</main>
+
+<footer class="wrap">
+  <span>© 2026 regrevia · 内容以各仓库 README 为准</span>
+  <span><a href="https://github.com/regrevia">GitHub</a> · <a href="https://github.com/regrevia/Envoy">Envoy</a> · <a href="https://github.com/regrevia/Revia">Revia</a> · <a href="https://github.com/regrevia/Multiverse">Multiverse</a> · <a href="archive.html">旧版作品集</a></span>
+</footer>
+</body>
 </html>
