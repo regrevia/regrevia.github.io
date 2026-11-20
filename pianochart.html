@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="pianochart：一个音频链接换五线谱、简谱、MusicXML 与 MIDI" />
+    <title>pianochart | 链接换谱</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell case-shell case-shell-editorial">
+      <header class="hero hero-flat reveal" id="top">
+        <nav class="topbar topbar-flat" aria-label="产品页导航">
+          <a class="brand" href="index.html">pianochart</a>
+          <div class="topbar-links">
+            <a href="#overview">概览</a>
+            <a href="#run">怎么跑</a>
+            <a href="#output">产物</a>
+            <a href="#limits">边界</a>
+          </div>
+        </nav>
+
+        <section class="hero-grid hero-grid-editorial" id="overview">
+          <div class="hero-copy">
+            <p class="eyebrow">Audio to score</p>
+            <h1>pianochart</h1>
+            <p class="hero-lead">
+              给一个音频或视频链接，得到一份能弹的钢琴谱：五线谱分页图、简谱、MusicXML 和 MIDI。人声被分离掉，只留伴奏，非旋律声部收进左手。
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="https://github.com/regrevia/dsh-pianochart" target="_blank" rel="noreferrer">仓库</a>
+              <a class="button button-secondary" href="https://www.npmjs.com/package/pianochart-dsh" target="_blank" rel="noreferrer">npm</a>
+            </div>
+          </div>
+          <div class="hero-side-text">
+            <p class="minimal-note">三档难度共用一份编配，只换调号</p>
+          </div>
+        </section>
+      </header>
+
+      <main>
+        <section class="section section-flat reveal" id="output">
+          <div class="section-heading section-heading-tight">
+            <h2>产物</h2>
+          </div>
+          <article class="module-row reveal">
+            <div class="module-media">
+              <img src="assets/pianochart/staff-top.jpg" alt="pianochart 输出的五线谱第一页" />
+            </div>
+            <div class="module-copy">
+              <h3>五线谱</h3>
+              <dl class="module-meta">
+                <div>
+                  <dd>分页渲染 PNG 与 SVG</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+
+          <div class="feature-rail">
+            <article class="feature-slab">
+              <h3>简谱</h3>
+              <p>级数记法，括号区分左右手</p>
+            </article>
+            <article class="feature-slab">
+              <h3>MusicXML</h3>
+              <p>导入 MuseScore 继续编辑</p>
+            </article>
+            <article class="feature-slab">
+              <h3>MIDI</h3>
+              <p>试听与二次编曲，同源音高</p>
+            </article>
+            <article class="feature-slab">
+              <h3>比对图</h3>
+              <p>卷帘图，看左右手分布</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section section-flat reveal" id="run">
+          <div class="section-heading section-heading-tight">
+            <h2>怎么跑</h2>
+          </div>
+          <div class="overview-pairs">
+            <div class="overview-pair">
+              <span>在 DSH 里</span>
+              <p>装上 <code>pianochart-dsh</code>，对话里让它出谱</p>
+            </div>
+            <div class="overview-pair">
+              <span>本地出谱服务</span>
+              <p><code>python -m pianochart.serve</code>，粘链接出谱</p>
+            </div>
+            <div class="overview-pair">
+              <span>命令行</span>
+              <p><code>pianochart.cli --input 链接 --preset all</code></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section section-flat reveal" id="limits">
+          <div class="section-heading section-heading-tight">
+            <h2>边界</h2>
+          </div>
+          <div class="overview-pairs">
+            <div class="overview-pair">
+              <span>本站不代跑</span>
+              <p>本站是静态页，转写在你本机跑</p>
+            </div>
+            <div class="overview-pair">
+              <span>只做伴奏</span>
+              <p>人声被丢弃，纯人声段落出不了谱</p>
+            </div>
+            <div class="overview-pair">
+              <span>相似度不是准确率</span>
+              <p>相似度只比和声，不是逐音正确率</p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer footer-flat">
+        <div>
+          <h2>主页</h2>
+          <p>返回个人主页</p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html">主页</a>
+          <a href="https://github.com/regrevia/dsh-pianochart" target="_blank" rel="noreferrer">仓库</a>
+        </div>
+      </footer>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
