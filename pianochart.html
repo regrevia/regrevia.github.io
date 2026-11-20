@@ -70,7 +70,7 @@
             <h2>出谱</h2>
           </div>
           <form id="score-form" class="pc-form">
-            <input id="pc-src" type="url" required placeholder="音频或视频链接" />
+            <input id="pc-src" type="text" required placeholder="音频或视频链接" />
             <select id="pc-tier">
               <option value="easy" selected>easy 升号最少</option>
               <option value="all">三档全出</option>
@@ -189,6 +189,13 @@
           var link = function (f, attrs) {
             return '<a href="' + api() + '/files/' + j.id + '/' + f.path + '" ' + attrs + '>' + esc(f.name) + '</a>';
           };
+          var fc = (j.fingering_check || {})[j.tier] || null;
+          if (fc && fc.mode !== 'none') {
+            h += '<div class="pc-card"><h3>指法</h3><pre>' +
+              (fc.agrees ? '已标 ' + fc.in_staff_file + ' 个，左右手顺序都对'
+                         : '谱面只有 ' + fc.in_staff_file + ' 个，和编配的 ' + fc.in_arrangement + ' 个对不上') +
+              '</pre></div>';
+          }
           if (j.jianpu) h += '<div class="pc-card"><h3>简谱</h3><pre>' + esc(j.jianpu) + '</pre></div>';
           if (staff.length) h += '<div class="pc-card"><h3>五线谱</h3>' +
             staff.map(function (f) { return link(f, 'target="_blank" rel="noopener"'); }).join('') + '</div>';
