@@ -12,6 +12,27 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      .pc-form { display: flex; gap: 12px; flex-wrap: wrap; }
+      .pc-form input[type=url] { flex: 1 1 320px; min-width: 0; }
+      .pc-form input, .pc-form select, .pc-form button {
+        padding: 10px 14px; font: 16px/1.75 inherit; color: var(--text);
+        background: var(--surface); border: 1px solid var(--line); border-radius: 0;
+      }
+      .pc-form button { cursor: pointer; background: var(--text); color: var(--surface); }
+      .pc-form button[disabled] { opacity: .45; cursor: default; }
+      #pc-state { margin: 16px 0 0; font-size: 14px; color: var(--text-soft); min-height: 24px; }
+      #pc-out .pc-card { margin-top: 12px; border: 1px solid var(--line); padding: 16px; }
+      #pc-out h3 { margin: 0 0 8px; font-size: 14px; color: var(--text-soft); }
+      #pc-out a { display: block; color: var(--text); padding: 2px 0; }
+      #pc-out a:hover { text-decoration: underline; }
+      #pc-out pre { margin: 0; font-size: 12px; line-height: 1.75; overflow-x: auto; }
+      .pc-note { margin: 12px 0 0; font-size: 14px; color: var(--text-soft); }
+      .pc-api { display: block; margin-top: 12px; font-size: 14px; color: var(--text-soft); }
+      .pc-api input { width: 100%; margin-top: 6px; padding: 8px 12px; font: 14px/1.75 inherit;
+        color: var(--text); background: var(--surface); border: 1px solid var(--line); }
+      @media (max-width: 640px) { .pc-form { flex-direction: column; } }
+    </style>
   </head>
   <body>
     <div class="page-shell case-shell case-shell-editorial">
@@ -20,7 +41,8 @@
           <a class="brand" href="index.html">pianochart</a>
           <div class="topbar-links">
             <a href="#overview">概览</a>
-            <a href="#run">怎么跑</a>
+            <a href="#run">出谱</a>
+            <a href="#how">怎么跑</a>
             <a href="#output">产物</a>
             <a href="#limits">边界</a>
           </div>
@@ -45,6 +67,33 @@
       </header>
 
       <main>
+        <section class="section section-flat reveal" id="run">
+          <div class="section-heading section-heading-tight">
+            <h2>出谱</h2>
+          </div>
+          <form id="score-form" class="pc-form">
+            <input id="pc-src" type="url" required placeholder="音频或视频链接" />
+            <select id="pc-tier">
+              <option value="easy" selected>easy 升号最少</option>
+              <option value="all">三档全出</option>
+              <option value="medium">medium</option>
+              <option value="hard">hard</option>
+            </select>
+            <select id="pc-fingering">
+              <option value="key" selected>关键处指法</option>
+              <option value="all">每个音都标</option>
+              <option value="none">不标指法</option>
+            </select>
+            <button id="pc-go" type="submit">出谱</button>
+          </form>
+          <p id="pc-state" role="status" aria-live="polite"></p>
+          <div id="pc-out"></div>
+          <p class="pc-note">需要本机先跑起出谱服务，页面才知道往哪送</p>
+          <label class="pc-api">服务地址
+            <input id="pc-api" type="url" value="http://127.0.0.1:8765" />
+          </label>
+        </section>
+
         <section class="section section-flat reveal" id="output">
           <div class="section-heading section-heading-tight">
             <h2>产物</h2>
@@ -54,36 +103,23 @@
               <img src="assets/pianochart/staff-top.jpg" alt="pianochart 输出的五线谱第一页" />
             </div>
             <div class="module-copy">
-              <h3>五线谱</h3>
+              <h3>五线谱与简谱</h3>
               <dl class="module-meta">
                 <div>
-                  <dd>分页渲染 PNG 与 SVG</dd>
+                  <dd>分页 PNG 与 SVG，指法标在符头上方</dd>
+                </div>
+                <div>
+                  <dd>同一份编配的简谱文本，括号区分左右手</dd>
+                </div>
+                <div>
+                  <dd>MusicXML 与 MIDI，导入 MuseScore 继续编辑</dd>
                 </div>
               </dl>
             </div>
           </article>
-
-          <div class="feature-rail">
-            <article class="feature-slab">
-              <h3>简谱</h3>
-              <p>级数记法，括号区分左右手</p>
-            </article>
-            <article class="feature-slab">
-              <h3>MusicXML</h3>
-              <p>导入 MuseScore 继续编辑</p>
-            </article>
-            <article class="feature-slab">
-              <h3>MIDI</h3>
-              <p>试听与二次编曲，同源音高</p>
-            </article>
-            <article class="feature-slab">
-              <h3>比对图</h3>
-              <p>卷帘图，看左右手分布</p>
-            </article>
-          </div>
         </section>
 
-        <section class="section section-flat reveal" id="run">
+        <section class="section section-flat reveal" id="how">
           <div class="section-heading section-heading-tight">
             <h2>怎么跑</h2>
           </div>
@@ -100,14 +136,6 @@
               <span>命令行</span>
               <p><code>pianochart.cli --input 链接 --preset all</code></p>
             </div>
-          </div>
-        </section>
-
-        <section class="section section-flat reveal" id="limits">
-          <div class="section-heading section-heading-tight">
-            <h2>边界</h2>
-          </div>
-          <div class="overview-pairs">
             <div class="overview-pair">
               <span>本站不代跑</span>
               <p>本站是静态页，转写在你本机跑</p>
@@ -115,10 +143,6 @@
             <div class="overview-pair">
               <span>只做伴奏</span>
               <p>人声被丢弃，纯人声段落出不了谱</p>
-            </div>
-            <div class="overview-pair">
-              <span>相似度不是准确率</span>
-              <p>相似度只比和声，不是逐音正确率</p>
             </div>
           </div>
         </section>
@@ -135,6 +159,88 @@
         </div>
       </footer>
     </div>
+    <script>
+      (function () {
+        var apiInput = document.getElementById('pc-api');
+        var form = document.getElementById('score-form');
+        var src = document.getElementById('pc-src');
+        var tier = document.getElementById('pc-tier');
+        var fingering = document.getElementById('pc-fingering');
+        var go = document.getElementById('pc-go');
+        var state = document.getElementById('pc-state');
+        var out = document.getElementById('pc-out');
+        var STAGES = ['排队中', '取音频', '分离并转写', '出谱'];
+        var api = function () { return apiInput.value.replace(/\/+$/, ''); };
+
+        function esc(s) {
+          return String(s).replace(/[<&]/g, function (c) { return c === '<' ? '&lt;' : '&amp;'; });
+        }
+
+        function draw(j) {
+          if (j.status === 'error') {
+            state.textContent = '这次没成';
+            out.innerHTML = '<div class="pc-card"><h3>原因</h3><pre>' + esc(j.error) + '</pre></div>';
+            go.disabled = false;
+            return;
+          }
+          if (j.status !== 'ready') {
+            state.textContent = STAGES[j.stage || 0];
+            return;
+          }
+          var files = j.files || [];
+          var staff = files.filter(function (f) { return /\.png$/.test(f.name) && !/-roll\.png$/.test(f.name); });
+          var roll = files.filter(function (f) { return /-roll\.png$/.test(f.name); });
+          var rest = files.filter(function (f) { return /\.(musicxml|mid|jianpu\.txt)$/.test(f.name); });
+          state.textContent = '好了，' + staff.length + ' 页';
+          go.disabled = false;
+          var h = '';
+          var link = function (f, attrs) {
+            return '<a href="' + api() + '/files/' + j.id + '/' + f.path + '" ' + attrs + '>' + esc(f.name) + '</a>';
+          };
+          if (j.jianpu) h += '<div class="pc-card"><h3>简谱</h3><pre>' + esc(j.jianpu) + '</pre></div>';
+          if (staff.length) h += '<div class="pc-card"><h3>五线谱</h3>' +
+            staff.map(function (f) { return link(f, 'target="_blank" rel="noopener"'); }).join('') + '</div>';
+          var dl = rest.concat(roll);
+          if (dl.length) h += '<div class="pc-card"><h3>下载</h3>' +
+            dl.map(function (f) { return link(f, 'download'); }).join('') + '</div>';
+          out.innerHTML = h;
+        }
+
+        function poll(id) {
+          var tick = function () {
+            fetch(api() + '/api/job/' + id).then(function (r) { return r.json(); }).then(function (j) {
+              draw(j);
+              if (j.status === 'ready' || j.status === 'error') return;
+              setTimeout(tick, 1500);
+            }).catch(function () {
+              state.textContent = '连不上出谱服务';
+              go.disabled = false;
+            });
+          };
+          tick();
+        }
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          go.disabled = true;
+          out.innerHTML = '';
+          state.textContent = STAGES[0];
+          fetch(api() + '/api/score', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ source: src.value.trim(), tier: tier.value, fingering: fingering.value })
+          }).then(function (r) {
+            if (!r.ok) throw new Error('bad');
+            return r.json();
+          }).then(function (j) {
+            poll(j.id);
+          }).catch(function () {
+            state.textContent = '连不上出谱服务';
+            go.disabled = false;
+          });
+        });
+      })();
+    </script>
     <script src="script.js"></script>
   </body>
 </html>
